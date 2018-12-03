@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>GifTastic | Homework Assignment 6</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <!-- JQuery Library for head -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- CSS goes in head-->
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="box1">
+            <h1>Stuff & Things</h1>
+        </div>
+
+        <!-- Rendered Buttons will be placed here -->
+        <div class="box1">
+            <div id="buttons-view" class="col-12 btn btn-dark-outline btn-sm"></div>
+        </div>
+        <br>
+        <div class="row">
+            
+            <div class="col-12">
+                <form id="stuff-goes-here">
+                    <label for="stuff-input"> What stuff and things are you into? </label>
+                    <input type="text" id="stuff-input">
+
+                    <!-- Button triggers new stuff to be added -->
+                    <input id="add-stuff" class="btn btn-secondary" type="submit" value=" Add stuff! ">
+                </form>
+            </div>
+           
+        </div><br>
+
+
+        <!-- DEREK GOES HERE -->
+
+        <!-- stuffz goew here-->
+        <div id="stuffz-view">
+
+        </div>
+
+        <div><br></div>
+
+        <footer>
+            <div class="footer">
+                copyright &copy; 2018 | Derek Cutler
+            </div>
+
+        </footer>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            // Initial array of stuffz
+            var stuffz = ["Climbing", "Mountain Biking", "Snowboarding", "Skiing"];
+
+            // displaystuffInfo function re-renders the HTML to display the appropriate content
+
+
+            function displaystuffInfo() {
+                var apiURL = "http://api.giphy.com/v1/gifs/search?&q="
+                var stuff = $(this).attr("data-name");  
+                // alert(stuff);              
+                var apiKeyNameValue = "&api_key=LrhwdE2JBhHi9g0CKA741Wt7kTE6iLRH"
+                var limitNameValue = "&limit=10"
+                var gifRatingNameValue = "&rating=g"
+                var queryURL =  apiURL + stuff + apiKeyNameValue + limitNameValue + gifRatingNameValue;
+
+
+
+                // Creating an AJAX call for the specific stuff button being clicked
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    console.log(response)
+
+
+                    // Creating a div to hold the stuff 
+                    var stuffDiv = $("<div class='stuff'><div class='buttons btn btn-secondary'>");
+
+                    // Storing the rating data **ONHOLD**
+                    // for (var i = 0; i <= response.data.length; ++i);
+                    // var rating = response.data.[0].rating;
+                    // alert(rating)
+
+                    // Creating an element to have the rating displayed
+                    // var pOne = $("<p>").text("Rating: " + rating);
+
+                    // Displaying the rating
+                    // stuffDiv.append(pOne);
+
+                    // Storing the release year
+                    // var released = response.Released;
+
+                    // Creating an element to hold the release year
+                    // var pTwo = $("<p>").text("Released: " + released);
+
+                    // Displaying the release year
+                    // stuffDiv.append(pTwo);
+
+                    // Storing the plot
+                    // var plot = response.Plot;
+
+                    // Creating an element to hold the plot
+                    // var pThree = $("<p>").text("Plot: " + plot);
+
+                    // Appending the plot
+                    // stuffDiv.append(pThree);
+
+                    // Retrieving the URL for the image
+                    // var imgURL = response.Poster;
+
+                    // Creating an element to hold the image
+                    // var image = $("<img>").attr("src", imgURL);
+
+                    // Appending the image
+                    // stuffDiv.append(image);
+
+                    // Putting the entire stuff above the previous stuffz
+                    // $("#stuffz-view").prepend(stuffDiv);
+                });
+
+            }
+
+            // Function for displaying stuff data
+            function renderButtons() {
+
+                // Deleting the stuffz prior to adding new stuffz
+                // (this is necessary otherwise you will have repeat buttons)
+                $("#buttons-view").empty();
+
+                // Looping through the array of stuffz
+                for (var i = 0; i < stuffz.length; i++) {
+
+                    // Then dynamicaly generating buttons for each stuff in the array
+                    // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+                    var a = $("<button>");
+                    // Adding a class of stuff-btn to our button
+                    a.addClass("stuff-btn");
+                    // Adding a data-attribute
+                    a.attr("data-name", stuffz[i]);
+                    // Providing the initial button text
+                    a.text(stuffz[i]);
+                    // Adding the button to the buttons-view div
+                    $("#buttons-view").append(a);
+                }
+            }
+
+            // This function handles events where a stuff button is clicked
+            $("#add-stuff").on("click", function (event) {
+                event.preventDefault();
+                // This line grabs the input from the textbox
+                var stuff = $("#stuff-input").val().trim();
+
+                // Adding stuff from the textbox to our array
+                stuffz.push(stuff);
+
+                // Calling renderButtons which handles the processing of our stuff array
+                renderButtons();
+            });
+
+            // Adding a click event listener to all elements with a class of "stuff-btn"
+            $(document).on("click", ".stuff-btn", displaystuffInfo);
+
+            // Calling the renderButtons function to display the intial buttons
+            renderButtons();
+        </script>
+
+
+
+</body>
+
+</html>
