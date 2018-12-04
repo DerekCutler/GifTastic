@@ -76,7 +76,7 @@
                 var stuff = $(this).attr("data-name");  
                 // alert(stuff);              
                 var apiKeyNameValue = "&api_key=LrhwdE2JBhHi9g0CKA741Wt7kTE6iLRH"
-                var limitNameValue = "&limit=10"
+                var limitNameValue = "&limit=1" //CHANGE TO 10 WHEN READY
                 var gifRatingNameValue = "&rating=g"
                 var queryURL =  apiURL + stuff + apiKeyNameValue + limitNameValue + gifRatingNameValue;
 
@@ -87,17 +87,20 @@
                     url: queryURL,
                     method: "GET"
                 }).then(function (response) {
-                    console.log(response)
+                    console.log(response.data);
+
 
 
                     // Creating a div to hold the stuff 
                     var stuffDiv = $("<div class='stuff'><div class='buttons btn btn-secondary'>");
 
                     // Storing the rating data **ONHOLD**
-                    // for (var i = 0; i <= response.data.length; ++i);
-                    // var rating = response.data.[0].rating;
-                    // alert(rating)
+                    // for (var i = 0; i < response.length; ++i);
+                    // var rating = response.[i].rating;
+                    // alert(rating);
+                   
 
+                   //FROM THE CLASS REPO FOR REFERENCE
                     // Creating an element to have the rating displayed
                     // var pOne = $("<p>").text("Rating: " + rating);
 
