@@ -23,44 +23,45 @@
 <body>
 
     <div class="container">
+        <hr>
         <div class="box1">
             <h1>Stuff & Things</h1>
         </div>
+        <hr>
 
         <!-- Rendered Buttons will be placed here -->
         <div class="box1">
-            <div id="buttons-view" class="col-12 btn btn-dark-outline btn-sm"></div>
+            <div id="buttons-view" class="col-12 btn btn-dark-outline btn-lg"></div>
         </div>
-        <br>
+        <hr>
+
+        <!-- Row for 'Stuff' -->
         <div class="row">
-            
             <div class="col-12">
                 <form id="stuff-goes-here">
                     <label for="stuff-input"> What stuff and things are you into? </label>
                     <input type="text" id="stuff-input">
 
-                    <!-- Button triggers new stuff to be added -->
-                    <input id="add-stuff" class="btn btn-secondary" type="submit" value=" Add stuff! ">
+                    <!-- Button triggers new 'Stuff' to be added -->
+                    <input id="add-stuff" class="btn btn-secondary" type="submit" value=" Add Stuff & Things! ">
                 </form>
             </div>
-           
-        </div><br>
+        </div>
+        <hr>
 
-
-        <!-- DEREK GOES HERE -->
 
         <!-- stuffz goew here-->
         <div id="stuffz-view">
-
         </div>
 
-        <div><br></div>
+        <div>
+            <hr>
+        </div>
 
         <footer>
             <div class="footer">
                 copyright &copy; 2018 | Derek Cutler
             </div>
-
         </footer>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -73,13 +74,12 @@
 
             function displaystuffInfo() {
                 var apiURL = "http://api.giphy.com/v1/gifs/search?&q="
-                var stuff = $(this).attr("data-name");  
+                var stuff = $(this).attr("data-name");
                 // alert(stuff);              
                 var apiKeyNameValue = "&api_key=LrhwdE2JBhHi9g0CKA741Wt7kTE6iLRH"
-                var limitNameValue = "&limit=1" //CHANGE TO 10 WHEN READY
-                var gifRatingNameValue = "&rating=g"
-                var queryURL =  apiURL + stuff + apiKeyNameValue + limitNameValue + gifRatingNameValue;
-
+                var limitNameValue = "&limit=10"
+                var gifRatingNameValue = "&rating=pg"
+                var queryURL = apiURL + stuff + apiKeyNameValue + limitNameValue + gifRatingNameValue;
 
 
                 // Creating an AJAX call for the specific stuff button being clicked
@@ -87,55 +87,23 @@
                     url: queryURL,
                     method: "GET"
                 }).then(function (response) {
-                    console.log(response.data);
+                    console.log(response)
+                    var stuffDiv = $("<div class='stuff'>");
+                    for (var i = 0; i < response.data.length; i++) {
+
+                        // alert(response.data[0].rating);
+
+                        // Creating a div to hold the stuff 
 
 
+                        //PREPEND THE HTMLz
+                        // Adding Rating
+                        $("#stuffz-view").prepend("<h1> Rating: " + response.data[i].rating);
 
-                    // Creating a div to hold the stuff 
-                    var stuffDiv = $("<div class='stuff'><div class='buttons btn btn-secondary'>");
+                        // Adding gif
+                        $("#stuffz-view").prepend("<img src='" + response.data[i].images.fixed_width.url + "'>");
 
-                    // Storing the rating data **ONHOLD**
-                    // for (var i = 0; i < response.length; ++i);
-                    // var rating = response.[i].rating;
-                    // alert(rating);
-                   
-
-                   //FROM THE CLASS REPO FOR REFERENCE
-                    // Creating an element to have the rating displayed
-                    // var pOne = $("<p>").text("Rating: " + rating);
-
-                    // Displaying the rating
-                    // stuffDiv.append(pOne);
-
-                    // Storing the release year
-                    // var released = response.Released;
-
-                    // Creating an element to hold the release year
-                    // var pTwo = $("<p>").text("Released: " + released);
-
-                    // Displaying the release year
-                    // stuffDiv.append(pTwo);
-
-                    // Storing the plot
-                    // var plot = response.Plot;
-
-                    // Creating an element to hold the plot
-                    // var pThree = $("<p>").text("Plot: " + plot);
-
-                    // Appending the plot
-                    // stuffDiv.append(pThree);
-
-                    // Retrieving the URL for the image
-                    // var imgURL = response.Poster;
-
-                    // Creating an element to hold the image
-                    // var image = $("<img>").attr("src", imgURL);
-
-                    // Appending the image
-                    // stuffDiv.append(image);
-
-                    // Putting the entire stuff above the previous stuffz
-                    // $("#stuffz-view").prepend(stuffDiv);
+                    }
                 });
 
             }

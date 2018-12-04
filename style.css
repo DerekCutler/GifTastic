@@ -80,6 +80,16 @@ h2 {font-size: 21px;}
 }
 
 
+#stuffz-view {
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: space-around;
+	align-content: space-around;
+}
+
+
 .footer {
 	display: flex;
 	flex-direction: row;
