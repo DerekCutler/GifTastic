@@ -66,18 +66,18 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
+
             // Initial array of stuffz
             var stuffz = ["Climbing", "Mountain Biking", "Snowboarding", "Skiing"];
 
             // displaystuffInfo function re-renders the HTML to display the appropriate content
-
 
             function displaystuffInfo() {
                 var apiURL = "http://api.giphy.com/v1/gifs/search?&q="
                 var stuff = $(this).attr("data-name");
                 // alert(stuff);              
                 var apiKeyNameValue = "&api_key=LrhwdE2JBhHi9g0CKA741Wt7kTE6iLRH"
-                var limitNameValue = "&limit=10"
+                var limitNameValue = "&limit=3"
                 var gifRatingNameValue = "&rating=pg"
                 var queryURL = apiURL + stuff + apiKeyNameValue + limitNameValue + gifRatingNameValue;
 
@@ -86,7 +86,7 @@
                 $.ajax({
                     url: queryURL,
                     method: "GET"
-                }).then(function (response) {
+                }).done(function (response) {
                     console.log(response)
                     var stuffDiv = $("<div class='stuff'>");
                     for (var i = 0; i < response.data.length; i++) {
@@ -98,15 +98,31 @@
 
                         //PREPEND THE HTMLz
                         // Adding Rating
-                        $("#stuffz-view").prepend("<h1> Rating: " + response.data[i].rating);
+                        $("#stuffz-view").prepend("<h2> Rating: " + response.data[i].rating + "<br>");
 
                         // Adding gif
-                        $("#stuffz-view").prepend("<img src='" + response.data[i].images.fixed_width.url + "'>");
+                        $("#stuffz-view").prepend("<img src='" + response.data[i].images.fixed_width.url + "' data-state='still' class='gif'>");
 
                     }
                 });
 
             }
+
+            // // Onclick Animate or Still Toggle
+            // $(".gif").on("click", function () {
+            //     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+            //     var state = $(this).attr("data-state");
+            //     // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+            //     // Then, set the image's data-state to animate
+            //     // Else set src to the data-still value
+            //     if (state === "still") {
+            //         alert("still to animate");
+            //         $(this).html("<img src='" + response.data[i].images.fixed_width.url + "' data-state='still' class='gif'>");
+            //     } else {
+            //         $("#stuffz-view").text("<img src='" + response.data[i].images.fixed_width_still.url + "' data-state='still' class='gif'>");
+            //     }
+            // });
+
 
             // Function for displaying stuff data
             function renderButtons() {
