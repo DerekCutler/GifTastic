@@ -91,43 +91,47 @@
                     var stuffDiv = $("<div class='stuff'>");
                     for (var i = 0; i < response.data.length; i++) {
 
-                        // alert(response.data[0].rating);
 
-                        // Creating a div to hold the stuff 
-
+   
 
                         //PREPEND THE HTMLz
                         // Adding Rating
                         $("#stuffz-view").prepend("<h2> Rating: " + response.data[i].rating + "<br>");
 
-                        // Adding gif
-                        $("#stuffz-view").prepend("<img src='" + response.data[i].images.fixed_width.url + "' data-state='still' class='gif'>");
+                        // URL Swap
+                        var newElement = $("<img src='" + response.data[i].images.fixed_width_still.url + "' data-state='still' class='gif' otherSrc='" + response.data[i].images.fixed_width.url + "'>");
 
+                        // Adding gif
+                        $("#stuffz-view").prepend(newElement);
+
+
+                        // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+                        newElement.on("click", function () {
+                            var img = $(this);
+                            var state = img.attr("data-state");
+                            var src = img.attr('src');
+                            var otherSrc = img.attr("otherSrc");
+
+                            // toggle between URLs
+                            img.attr('src', otherSrc);
+                            img.attr('otherSrc', src);
+
+                            if (state === 'still') {
+                                img.attr("data-state", 'animate');
+                            }
+                            else if (state === 'animate') {
+                                img.attr("data-state", 'still');
+                            }
+                        });
                     }
                 });
-
             }
-
-            // // Onclick Animate or Still Toggle
-            // $(".gif").on("click", function () {
-            //     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-            //     var state = $(this).attr("data-state");
-            //     // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-            //     // Then, set the image's data-state to animate
-            //     // Else set src to the data-still value
-            //     if (state === "still") {
-            //         alert("still to animate");
-            //         $(this).html("<img src='" + response.data[i].images.fixed_width.url + "' data-state='still' class='gif'>");
-            //     } else {
-            //         $("#stuffz-view").text("<img src='" + response.data[i].images.fixed_width_still.url + "' data-state='still' class='gif'>");
-            //     }
-            // });
 
 
             // Function for displaying stuff data
             function renderButtons() {
 
-                // Deleting the stuffz prior to adding new stuffz
+
                 // (this is necessary otherwise you will have repeat buttons)
                 $("#buttons-view").empty();
 
@@ -136,15 +140,15 @@
 
                     // Then dynamicaly generating buttons for each stuff in the array
                     // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-                    var a = $("<button>");
+                    var newBut = $("<button>");
                     // Adding a class of stuff-btn to our button
-                    a.addClass("stuff-btn");
+                    newBut.addClass("stuff-btn");
                     // Adding a data-attribute
-                    a.attr("data-name", stuffz[i]);
+                    newBut.attr("data-name", stuffz[i]);
                     // Providing the initial button text
-                    a.text(stuffz[i]);
+                    newBut.text(stuffz[i]);
                     // Adding the button to the buttons-view div
-                    $("#buttons-view").append(a);
+                    $("#buttons-view").append(newBut);
                 }
             }
 
@@ -167,9 +171,7 @@
             // Calling the renderButtons function to display the intial buttons
             renderButtons();
         </script>
-
-
-
+    </div>
 </body>
 
 </html>
